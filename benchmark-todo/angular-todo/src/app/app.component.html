@@ -1,0 +1,61 @@
+<div class="app">
+  <header>
+    <h1>{{ title }}</h1>
+    <p>{{ sub }}</p>
+  </header>
+
+  <section class="controls">
+    <input [(ngModel)]="taskName" placeholder="Task name" (keydown.enter)="addTask()" />
+    <select [(ngModel)]="priority">
+      <option value="low">Low</option>
+      <option value="medium">Medium</option>
+      <option value="high">High</option>
+    </select>
+    <button (click)="addTask()">Add Task</button>
+  </section>
+
+  <section class="bench-bar">
+    <button class="btn-bench" (click)="runBenchmarks()" [disabled]="running">
+      {{ running ? 'Running benchmarks…' : 'Run Benchmarks' }}
+    </button>
+    <span class="task-count">{{ tasks.length }} tasks</span>
+  </section>
+
+  <section class="results" *ngIf="results.length > 0">
+    <h2>Benchmark Results (ms)</h2>
+    <table>
+      <thead><tr><th>Operation</th><th>Time (ms)</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let r of results">
+          <td>{{ r.label }}</td>
+          <td>{{ r.time }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <ul class="todo-list">
+    <li class="todo-item" *ngFor="let task of tasks">
+      <ng-container *ngIf="editingId === task.id; else display">
+        <input [(ngModel)]="editName" />
+        <select [(ngModel)]="editPriority">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <button class="save" (click)="saveEdit(task.id)">Save</button>
+        <button class="cancel" (click)="cancelEdit()">Cancel</button>
+      </ng-container>
+      <ng-template #display>
+        <span class="task-name">{{ task.name }}</span>
+        <span class="badge" [style.background]="task.priority === 'low' ? '#4CAF50' : task.priority === 'medium' ? '#FF9800' : '#f44336'">
+          {{ task.priority }}
+        </span>
+        <div class="actions">
+          <button class="edit" (click)="startEdit(task)">✎</button>
+          <button class="delete" (click)="deleteTask(task.id)">✕</button>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+</div>
