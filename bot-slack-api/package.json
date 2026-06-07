@@ -1,0 +1,14 @@
+{
+  "name": "bot-slack-api",
+  "version": "1.0.0",
+  "description": "Slack bot built with Bolt — Exercise for GMC Master",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "node --watch bot.js"
+  },
+  "dependencies": {
+    "@slack/bolt": "^4.2.1",
+    "dotenv": "^16.4.7"
+  }
+}
